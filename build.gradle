@@ -31,7 +31,6 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
-
 project(":desktop") {
     apply plugin: "java"
 
@@ -47,7 +46,6 @@ project(":desktop") {
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }
-
 project(":android") {
     apply plugin: "android"
 
@@ -72,7 +70,6 @@ project(":android") {
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
 }
-
 project(":core") {
     apply plugin: "java"
 
@@ -85,7 +82,9 @@ project(":core") {
         compile "com.kotcrab.vis:vis-ui:1.1.1"
     }
 }
-
 tasks.eclipse.doLast {
     delete ".project"
+}
+
+dependencies {
 }
