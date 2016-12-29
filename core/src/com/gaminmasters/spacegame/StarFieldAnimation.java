@@ -18,12 +18,12 @@ public class StarFieldAnimation {
 
     Array<Star> stars;
 
-    public StarFieldAnimation(ShapeRenderer sr){
+    public StarFieldAnimation(ShapeRenderer sr, boolean b){
         shapeRenderer = sr;
         stars = new Array<Star>();
 
         for (int i = 0; i < starNum; i++)
-            stars.add(new Star());
+            stars.add(new Star(b));
     }
 
     public void render(){
@@ -41,42 +41,63 @@ public class StarFieldAnimation {
 }
 
  class Star{
-     private Vector3 position, velocity;
+     private Vector3 position, velocity, start_position;
      private float width, height;
      private float depth_end = 1000, depth_start = 100;
      private float velocity_min = 0.5f, velocity_max = 5f;
 
      private float maxRadius = 5f;
 
-     public Star(){
+     private boolean isLine;
+     float timer = 0;
+
+     public Star(boolean b){
+         isLine = b;
+
          position = new Vector3();
          velocity = new Vector3();
+         start_position = new Vector3();
          init();
      }
      private void init(){
          width = Gdx.graphics.getWidth();
          height = Gdx.graphics.getHeight();
 
-         position.x = MathUtils.random(-width, width);
-         position.y = MathUtils.random(-height, height);
-         position.z = MathUtils.random(depth_start, depth_end);
+         timer = 0;
+         start_position.x = position.x = MathUtils.random(-width, width);
+         start_position.y = position.y = MathUtils.random(-height, height);
+         start_position.z = position.z = MathUtils.random(depth_start, depth_end);
          velocity.z = MathUtils.random(velocity_min, velocity_max);
      }
 
      public void update(float speed){
-         if (position.z < 0 || position.z > depth_end || position.y > height || position.x > width)
-             init();
          float t = Gdx.graphics.getDeltaTime();
          position.sub(velocity.x * speed * t, velocity.y * speed * t, velocity.z * speed * t);
+
+         if (isLine) {
+             timer += Gdx.graphics.getDeltaTime();
+             if (timer > 0.5f * speed / 50f * t * 50) {
+                 start_position.sub(velocity.x * speed * t, velocity.y * speed * t, velocity.z * speed * t);
+             }
+         }
+         if (position.z < 0 || position.z > depth_end || position.y > height || position.x > width)
+             init();
      }
 
      public void draw(ShapeRenderer shapeRenderer){
          float color = (1.0f - position.z * .001f * velocity.z) * 1.0f;
+         shapeRenderer.setColor(color, color, color, 1f);
+
          float x = position.x / position.z * 100 + width / 2f;
          float y = position.y / position.z * 100 + height / 2f;
-         float radius = (maxRadius - position.z * maxRadius * .001f) * velocity.z * 0.2f;
-         shapeRenderer.setColor(color, color, color, 1f);
-         shapeRenderer.circle(x, y, radius);
+         if (isLine){
+             float x1 = start_position.x / start_position.z * 100 + width / 2f;
+             float y1 = start_position.y / start_position.z * 100 + height / 2f;
+             shapeRenderer.line(x, y, x1, y1);
+         } else {
+             float radius = (maxRadius - position.z * maxRadius * .001f) * velocity.z * 0.2f;
+             shapeRenderer.circle(x, y, radius);
+         }
      }
 
 

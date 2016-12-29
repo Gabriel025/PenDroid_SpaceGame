@@ -1,8 +1,6 @@
 package com.gaminmasters.spacegame;
 
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,23 +10,19 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * Created by Adam on 2016. 12. 28..
  */
 
-public class MenuTest implements Screen {
-    ShapeRenderer shapeRenderer;
-    StarFieldAnimation starFieldAnimation;
+public class SplashScreen implements Screen {
+    private Stage stage;
+    private ShapeRenderer shapeRenderer;
 
-    Stage stage;
-
-    public MenuTest(){
+    public SplashScreen(){
         stage = new Stage();
-
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
-        starFieldAnimation = new StarFieldAnimation(shapeRenderer, false);
     }
 
     @Override
     public void show() {
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+            stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
     }
 
     @Override
@@ -36,13 +30,6 @@ public class MenuTest implements Screen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        starFieldAnimation.render();
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            starFieldAnimation.changeSpeed(-0.5f);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            starFieldAnimation.changeSpeed(0.5f);
-        }
 
         stage.act();
     }
