@@ -1,22 +1,17 @@
 package com.gaminmasters.spacegame;
 
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 
 /**
  * Created by Gabriel025 on 2016.12.17.
  */
 
-public class GameScreen extends ScreenAdapter {
+public class GameScreen implements Screen {
     Game game;
-
-    PooledEngine engine;
 
     public GameScreen(Game game)
     {
-        super();
-
         this.game = game;
     }
 
@@ -26,10 +21,39 @@ public class GameScreen extends ScreenAdapter {
     }
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
     public void render(float delta) {
-        super.render(delta);
         update();
 
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
 
     }
 }
